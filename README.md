@@ -1,7 +1,7 @@
 # Customer Churn Analysis
 
 ## 📌 Project Overview
-This project analyzes customer churn behavior using Python, MySQL, and Looker Studio.
+This project analyzes customer churn behavior using Python, MySQL, and PowerBI.
 
 ## 🛠 Tools Used
 - Python (Pandas, NumPy)
@@ -10,10 +10,11 @@ This project analyzes customer churn behavior using Python, MySQL, and Looker St
 - GitHub
 
 ## 📊 Key Insights
-- Month-to-month contracts have highest churn rate.
-- Customers with low tenure are more likely to churn.
-- Higher monthly charges increase churn probability.
-- Lack of tech support & online security increases churn.
+- Month-to-month contracts churn at 42.71%, vs. 11.27% (one year) and 2.83% (two-year).
+- 47.44% of customers churn within their first 12 months, dropping to 9.51% after 49+ months.
+- Lack of tech support and online security roughly 5x's churn risk — 48.96% (neither) vs. 9.01% (both).
+- Electronic check payers churn at 45.29% — the highest of any payment method, and account for 57.3% of all churn.
+- $1.67M in annualized revenue is at risk from current churned customers (30.5% of total monthly recurring revenue).
 
 ## 📂 Project Structure
 - data/ → Cleaned dataset
@@ -21,7 +22,7 @@ This project analyzes customer churn behavior using Python, MySQL, and Looker St
 - notebook/ → Data cleaning notebook
 
 ## 📈 Dashboard Preview
-<img width="1145" height="845" alt="dashboard preview" src="https://github.com/user-attachments/assets/6d38a820-6cdd-4e15-a755-825d3b0b49b4" />
+<img width="2306" height="1956" alt="churn_dashboard" src="https://github.com/user-attachments/assets/870f21b7-3110-4fb4-8c99-2fdb0a42fab9" />
 
 ## 🚀 Business Impact
 This analysis helps businesses identify high-risk customers and improve retention strategies.
