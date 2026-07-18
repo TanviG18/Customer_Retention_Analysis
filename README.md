@@ -22,7 +22,8 @@ This project analyzes customer churn behavior using Python, MySQL, and PowerBI.
 - notebook/ → Data cleaning notebook
 
 ## 📈 Dashboard Preview
-<img width="2306" height="1956" alt="churn_dashboard" src="https://github.com/user-attachments/assets/870f21b7-3110-4fb4-8c99-2fdb0a42fab9" />
+<img width="2306" height="1795" alt="churn_dashboard (2)" src="https://github.com/user-attachments/assets/d63b4f26-dccd-42fd-a16d-70dedaeafe6d" />
+
 
 ## 🚀 Business Impact
 This analysis helps businesses identify high-risk customers and improve retention strategies.
