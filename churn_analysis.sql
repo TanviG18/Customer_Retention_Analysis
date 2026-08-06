@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS churn_data (
   PaperlessBilling VARCHAR(5),
   PaymentMethod VARCHAR(30),
   MonthlyCharges DECIMAL(8,2),
-  TotalCharges DECIMAL(10,2)
+  TotalCharges DECIMAL(10,2),
   Churn VARCHAR(5)
 );
 SHOW TABLES;
-SELECT * FROM retail_data LIMIT 10;
+SELECT * FROM churn_data LIMIT 10;
 
 
 -- Overall churn rate
@@ -88,8 +88,8 @@ WHERE TechSupport <> 'No internet service' AND OnlineSecurity <> 'No internet se
 GROUP BY TechSupport, OnlineSecurity
 ORDER BY churn_rate_pct DESC;
 
--- Churn rate by payment methode
-ELECT
+-- Churn rate by payment method
+SELECT
   PaymentMethod,
   COUNT(*) AS total_customers,
   SUM(CASE WHEN Churn='Yes' THEN 1 ELSE 0 END) AS churned,
@@ -140,3 +140,31 @@ SELECT
 FROM charge_quartiles
 GROUP BY charge_quartile
 ORDER BY charge_quartile;
+
+-- Composite risk-scoring model: give each customer 1 point per major risk
+-- factor present, then check how much of total churn the highest-risk
+-- 30% of customers account for.
+WITH scored AS (
+  SELECT
+    customerID,
+    Churn,
+    (CASE WHEN Contract = 'Month-to-month' THEN 1 ELSE 0 END) +
+    (CASE WHEN PaymentMethod = 'Electronic check' THEN 1 ELSE 0 END) +
+    (CASE WHEN TechSupport = 'No' THEN 1 ELSE 0 END) +
+    (CASE WHEN OnlineSecurity = 'No' THEN 1 ELSE 0 END) +
+    (CASE WHEN tenure <= 12 THEN 1 ELSE 0 END) AS risk_score
+  FROM churn_data
+),
+ranked AS (
+  SELECT *, NTILE(10) OVER (ORDER BY risk_score DESC) AS risk_decile
+  FROM scored
+)
+SELECT
+  COUNT(*) AS customers_in_top30pct,
+  SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) AS churned_in_top30pct,
+  ROUND(
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0
+    / (SELECT SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) FROM churn_data), 2
+  ) AS pct_of_total_churn_captured
+FROM ranked
+WHERE risk_decile <= 3;
