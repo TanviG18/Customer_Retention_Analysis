@@ -4,7 +4,7 @@
 This project analyzes customer churn behavior using Python, MySQL, and Power BI, identifying which customers are highest-risk and quantifying the revenue impact of churn to support retention strategy.
 
 ## Tools Used
-- Python (Pandas, NumPy)
+- Python (Pandas)
 - MySQL Workbench
 - Power BI
 - GitHub
